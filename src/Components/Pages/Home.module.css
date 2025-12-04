@@ -1,4 +1,8 @@
-  .hero {
+/* ============================================== */
+/* === ESTILOS GLOBAIS / DESKTOP (INTACTOS) === */
+/* ============================================== */
+
+.hero {
   position: relative;
   width: 100%;
   height: 100vh;
@@ -75,11 +79,11 @@
 }
 
 .leadersHeader {
-  display: flex;         
+  display: flex; 		
   flex-direction: column;
-  align-items: center;   
-  text-align: center;    
-  width: 100%;           
+  align-items: center; 	
+  text-align: center; 	
+  width: 100%; 			
   margin-bottom: 4rem;
   padding: 0 1rem;
 }
@@ -127,10 +131,10 @@
 
 .cardIcon {
   height: 80px;
-  width: 80px; /* Forcei largura também */
+  width: 80px;
   margin-bottom: 1.5rem;
   align-self: center;
-  display: flex; /* Novo: Para alinhar o SVG dentro da div */
+  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -152,17 +156,180 @@
       grid-template-columns: repeat(3, 1fr);
   }
 } 
-@media (max-width: 992px) {
-  .heroContent { max-width: 520px; padding: 2.4rem; }
-  .heroContent h1 { font-size: 2rem; }
+
+.subtitle {
+  font-size: 1rem;
+  text-align: center;
 }
 
-@media (max-width: 768px) {
-  .hero { justify-content: center; padding-left: 0; }
-  .heroContent {  
-    max-width: 92%;
-    padding: 1.6rem;
-    border-radius: 12px;
+.pageContainer,
+.content,
+.wrapper,
+.section {
+  padding: 1.2rem;
+  flex-direction: column;
+  text-align: center;
+}
+
+.image,
+.imgWrapper img {
+  width: 100%;
+  max-width: 330px;
+  margin: 0 auto;
+  display: block;
+}
+
+.grid,
+.gridWrapper {
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+}
+
+p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.button,
+.cta,
+.ctaButton {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.left,
+.right,
+.textBox,
+.imageBox {
+  width: 100%;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+}
+.cardIcon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto;
+}
+
+.cardContent {
+  width: 100%;
+}
+
+
+.card h2 {
+  font-size: 1.4rem;
+}
+
+.card p {
+  font-size: 0.95rem;
+}
+
+/* ===== DESKTOP WRAPPER (INTACTO) ===== */
+.homeWrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ============================================== */
+/* === CORREÇÃO DO CONTAINER E MEDIA QUERIES === */
+/* ============================================== */
+
+/* 1. CORREÇÃO ESSENCIAL PARA O CONTAINER (que tem 1200px fixo) */
+/* Isso garante que em telas menores que 1200px, ele se expanda 100% 
+   e adicione o padding lateral para centralizar corretamente o conteúdo. */
+@media (max-width: 1200px) {
+  /* Se a classe .container estiver em outro arquivo, adicione a global aqui: */
+  .container {
+    width: 100%;
+    padding: 0 1rem; /* Adiciona o respiro lateral */
+    margin: 0 auto;
+    /* justify-content: space-between; pode ser mantido ou alterado para center se necessário */
   }
-  .heroContent h1 { font-size: 1.6rem; }
-} 
+}
+
+/* 2. REVISÃO GERAL PARA TABLET / MOBILE (<= 768px) */
+@media (max-width: 768px) {
+
+  .homeWrapper {
+    max-width: 100%;
+    width: 100%;
+    padding: 0; /* Removido o padding horizontal para evitar conflito com .container */
+  }
+  
+  /* HERO */
+  .hero {
+    justify-content: center;
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .heroContent {
+    max-width: 90%; /* Ajuste para não quebrar a tela */
+    margin: 0 auto; /* Garante a centralização do bloco */
+    text-align: center;
+    padding: 1.6rem 1rem;
+  }
+  
+  /* SEGUNDA SEÇÃO */
+  .leadersSection {
+    text-align: center;
+    padding: 3rem 0; /* Remove padding lateral */
+  }
+
+  .leadersHeader {
+    text-align: center;
+    align-items: center;
+    margin: 0 auto 2rem auto;
+    width: 100%;
+    padding: 0 1rem; /* Garante o respiro para o texto */
+  }
+
+  .leadersHeader h2 {
+    font-size: 1.6rem;
+    line-height: 1.3;
+  }
+
+  /* Cards centralizados */
+  .cardsGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+    justify-items: center; /* ESSENCIAL para centralizar os cards no grid */
+    width: 100%;
+    padding: 0 1rem; /* Adiciona respiro horizontal para os cards */
+    margin: 0 auto;
+  }
+
+  .whiteCard {
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    align-items: center; /* Centraliza o conteúdo interno (icon/h3/p) */
+    padding: 2rem;
+  }
+}
+
+
+/* ===== EXTRA SMALL - 480px (INTACTO) ===== */
+@media (max-width: 480px) {
+  
+  .leadersHeader h2 {
+    font-size: 1.4rem;
+  }
+
+  .whiteCard {
+    max-width: 360px;
+    padding: 1.4rem;
+  }
+}
+
+/* 3. REMOÇÃO DE BLOCOS CONFLITANTES */
+/* O CÓDIGO ABAIXO FOI REMOVIDO POIS ESTAVA CONFLITANDO E USANDO !IMPORTANT DE FORMA EXCESSIVA.
+   AS CORREÇÕES FORAM INSERIDAS NOS BLOCOS ACIMA. */
+/* @media (max-width: 768px) { ... } */
+/* .leadersSection :global(.container) { ... } */
