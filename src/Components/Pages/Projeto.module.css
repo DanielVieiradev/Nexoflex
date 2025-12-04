@@ -42,3 +42,12 @@
 .gridWrapper {
   width: 100%;
 }
+.page_wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content_wrapper {
+  flex: 1;
+}
