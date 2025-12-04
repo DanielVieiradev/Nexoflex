@@ -1,16 +1,84 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+📊 Nexoflex — Sistema Inteligente para Gestão de Projetos e Finanças
 
-Currently, two official plugins are available:
+O Nexoflex é uma aplicação web desenvolvida em React + Vite, projetada para oferecer uma experiência simples, moderna e eficiente no gerenciamento de projetos e finanças.
+O foco do sistema é organização, velocidade e clareza, permitindo acompanhar a evolução dos projetos de forma visual e intuitiva.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🚀 Tecnologias utilizadas
 
-## React Compiler
+-React + Vite
+-JavaScript (ES6+)
+-CSS Modules
+-React Router DOM
+-Axios (quando houver requisições)
+-React Icons
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+🧩 Objetivo do Projeto
 
-## Expanding the ESLint configuration
+Criar uma solução simples e flexível para empresas ou profissionais que precisam acompanhar seus projetos, métricas e finanças, com foco em:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Visual limpo
+
+Experiência intuitiva
+
+Operação rápida
+
+Zero burocracia
+
+🌱 Futuras melhorias
+
+Dashboard dinâmico
+
+Autenticação JWT
+
+Banco de dados real
+
+Gráficos com Chart.js ou Recharts
+
+API própria para projetos
+
+🎨 Funcionalidades principais e Responsividade
+
+* Navbar moderna e adaptada para mobile, incluindo menu hambúrguer.
+
+* Página Empresa com seções informativas.
+
+* Página Projetos com gerenciamento (listar, detalhes, API).
+
+* Página Contato com formulário e redes sociais animadas.
+
+* Tema visual profissional, inspirado em dashboards corporativos.
+
+* O Nexoflex foi desenvolvido com foco em acessibilidade mobile:
+
+
+==================================================
+*/TUTORIAL*/
+
+🛠️ Como rodar o projeto localmente
+
+Clone o repositório:
+
+git clone https://github.com/SEU-USUARIO/nexoflex.git
+
+
+Entre na pasta:
+
+cd nexoflex
+
+
+Instale as dependências:
+
+npm install
+
+
+Execute:
+
+npm run dev
+
+
+O projeto irá rodar em:
+
+http://localhost:5173
+
