@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Input from "../form/Input";
+import Input from "../Form/Input";
 import styles from "./ProjectForm.module.css";
 import api from "../services/api";
 
