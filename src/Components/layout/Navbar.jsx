@@ -38,8 +38,6 @@ function Navbar() {
           </Link>
           <span className={styles.brandname}>Nexoflex™</span>
         </div>
-
-        {/* BOTÃO HAMBÚRGUER */}
         <div
           className={`${styles["menu-toggle"]} ${isOpen ? styles.active : ""}`}
           onClick={toggleMenu}
