@@ -1,0 +1,88 @@
+.container {
+  padding: 20px;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #06523b;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #e6e6e6;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+  transition: 0.3s ease;
+}
+
+.empty {
+  font-size: 1.1rem;
+  color: #777;
+  margin-top: 20px;
+  text-align: center;
+}
+.grid * {
+  max-width: 100%;
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: #06523b;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+.card h2 {
+  color: #06523b;
+  margin-bottom: 10px;
+}
+.card p {
+  margin-bottom: 6px;
+  color: #444;
+}
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: 0.2s ease;
+  color: #fff;
+}
+
+.details {
+  background: #0b6e4f;
+}
+.details:hover {
+  background: #095b40;
+}
+
+.edit {
+  background: #0072ff;
+}
+.edit:hover {
+  background: #005ccc;
+}
+
+.delete {
+  background: #c7382b;
+}
+.delete:hover {
+  background: #a22c21;
+}

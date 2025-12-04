@@ -1,0 +1,50 @@
+.container {
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #06523b;
+  font-weight: 700;
+}
+
+.loading,
+.error {
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 2rem;
+  color: #444;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form input,
+.form select {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.btn {
+  padding: 14px;
+  background-color: #06523b;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: 0.2s ease;
+  font-size: 1rem;
+}
+
+.btn:hover {
+  background-color: #087f54;
+}

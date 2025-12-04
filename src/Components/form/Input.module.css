@@ -1,0 +1,25 @@
+.form_control {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form_control label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #06523b; /* verde do Nexoflex */
+}
+
+.form_control input {
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.form_control input:focus {
+  border-color: #0a805e;
+  box-shadow: 0 0 4px rgba(6, 82, 59, 0.3);
+}

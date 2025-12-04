@@ -1,0 +1,139 @@
+/* Linkbutton.module.css */
+
+.linkBtn {
+  padding: 12px 70px;
+  width: 320px; /* controla o tamanho */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto; /* centraliza caso o pai não tenha flex */
+  background: #06523b; 
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  gap: 10px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+
+.linkBtn:hover {
+  background: #006b4b; 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 128, 90, 0.4); 
+}
+
+.iconContainer {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.icon {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 24px;
+  height: 24px;
+  color: #000000; 
+  opacity: 0;
+  visibility: hidden;
+}
+
+.defaultIcon {
+  opacity: 1;
+  visibility: visible;
+}
+
+.linkBtn:hover .icon {
+  animation: none;
+}
+
+.linkBtn:hover .walletIcon {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.linkBtn:hover .cardIcon {
+  animation: iconRotate 2.5s infinite;
+  animation-delay: 0s;
+}
+
+.linkBtn:hover .paymentIcon {
+  animation: iconRotate 2.5s infinite;
+  animation-delay: 0.5s;
+}
+
+.linkBtn:hover .dollarIcon {
+  animation: iconRotate 2.5s infinite;
+  animation-delay: 1s;
+}
+
+.linkBtn:hover .checkIcon {
+  animation: iconRotate 2.5s infinite;
+  animation-delay: 1.5s;
+}
+
+.linkBtn:active .icon {
+  animation: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.linkBtn:active .checkIcon {
+  animation: checkmarkAppear 0.6s ease forwards;
+  visibility: visible;
+}
+
+.btnText {
+  font-weight: 600;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+@keyframes iconRotate {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px) scale(0.5);
+  }
+  5% {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+  15% {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+  20% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.5);
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.5);
+  }
+}
+
+@keyframes checkmarkAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-45deg);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
