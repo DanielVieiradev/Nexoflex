@@ -1,14 +1,16 @@
-.container  {
-  width: 1200px;
+.container {
+  width: 100%;
+  max-width: 1200px;
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  flex-wrap: wrap
+  flex-wrap: wrap;
+  box-sizing: border-box;
 }
+
 .min-height {
   min-height: auto;
 }
-
 
 .start {
   justify-content: flex-start;
@@ -16,5 +18,12 @@
 
 .column {
   flex-direction: column;
-  justify-content:  flex-start;
+  justify-content: flex-start;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+    justify-content: center;
+  }
 }
