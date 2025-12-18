@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
 import styles from "./ProjectList.module.css";
-import api from "../services/api";
+// import api from "../services/api"; // Removendo import da api antiga (pode ser removido totalmente depois)
+import { fetchProjects } from "../services/supabase"; // Importando serviço do Supabase
 import ProjectCard from "../Project/ProjectCard";
 
 function ProjectsList() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    api
-      .get("/projetos")
-      .then((response) => {
-        setProjects(response.data);
-      })
-      .catch((error) => {
+    const loadProjects = async () => {
+      try {
+        const data = await fetchProjects();
+        setProjects(data);
+      } catch (error) {
         console.error("Erro ao buscar projetos:", error);
-      });
+      }
+    };
+
+    loadProjects();
   }, []);
 
   function removeProject(id) {
@@ -35,7 +38,7 @@ function ProjectsList() {
             id={project.id}
             name={project.name}
             budget={project.budget}
-            category_id={project.category_id}
+            category={project.category}
             onRemove={removeProject}
           />
         ))}

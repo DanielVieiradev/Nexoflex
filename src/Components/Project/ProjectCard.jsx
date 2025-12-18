@@ -1,13 +1,12 @@
 import styles from "./ProjectCard.module.css";
 import { Link } from "react-router-dom";
-import api from "../services/api";
-import CategoryNames from "../services/CategoryNames";
+import { deleteProject } from "../services/supabase";
 
-function ProjectCard({ id, name, budget, category_id, onRemove }) {
+function ProjectCard({ id, name, budget, category, onRemove }) {
 
   const handleRemove = async () => {
     try {
-      await api.delete(`/projetos/${id}`);
+      await deleteProject(id);
       onRemove(id);
     } catch (error) {
       console.error("Erro ao excluir projeto:", error);
@@ -22,7 +21,7 @@ function ProjectCard({ id, name, budget, category_id, onRemove }) {
 
       <p>
         <strong>Categoria:</strong>{" "}
-        {CategoryNames[Number(category_id)] || "Categoria desconhecida"}
+        {category || "Categoria desconhecida"}
       </p>
 
       <div className={styles.actions}>

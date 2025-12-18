@@ -1,16 +1,15 @@
 import { useState } from "react";
 import Input from "../Form/Input";
 import styles from "./ProjectForm.module.css";
-import api from "../services/api";
+import { supabase } from "../services/supabase";
 
 function ProjectForm() {
-
   const [project, setProject] = useState({
     name: "",
     budget: "",
-    category_id: "",
+    category: "",
   });
-  
+
   function handleChange(e) {
     setProject({ ...project, [e.target.name]: e.target.value });
   }
@@ -18,25 +17,28 @@ function ProjectForm() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    try {
-      const response = await api.post("/projetos", project);
+    const projectToInsert = {
+      name: project.name,
+      budget: Number(project.budget),
+      category_id: project.category,
+    };
 
-      if (response.status === 201) {
-        alert("✅ Projeto criado com sucesso!");
-        setProject({ name: "", budget: "", category_id: "" });
-      } else {
-        alert("⚠️ Algo inesperado aconteceu ao salvar o projeto.");
-        console.log("Resposta:", response);
-      }
-    } catch (error) {
+    const { error } = await supabase
+      .from("projects")
+      .insert([projectToInsert]);
+
+    if (error) {
       console.error("Erro ao criar projeto:", error);
       alert("❌ Ocorreu um erro ao salvar o projeto.");
+      return;
     }
+
+    alert("✅ Projeto criado com sucesso!");
+    setProject({ name: "", budget: "", category: "" });
   }
 
   return (
     <form onSubmit={handleSubmit} className={styles.form_container}>
-      
       <Input
         type="text"
         text="Nome do projeto"
@@ -56,21 +58,21 @@ function ProjectForm() {
       />
 
       <div className={styles.form_control}>
-        <label htmlFor="category_id"></label>
+        <label htmlFor="category"></label>
         <select
-          name="category_id"
-          id="category_id"
+          name="category"
+          id="category"
           onChange={handleChange}
-          value={project.category_id}
+          value={project.category}
         >
           <option value="">Selecione a categoria</option>
-          <option value="1">Planejamento</option>
-          <option value="2">Desenvolvimento</option>
-          <option value="3">Design</option>
-          <option value="4">Financeiro</option>
-          <option value="5">Marketing</option>
-          <option value="6">Infraestrutura</option>
-          <option value="7">Operacional</option>
+          <option value="Planejamento">Planejamento</option>
+          <option value="Desenvolvimento">Desenvolvimento</option>
+          <option value="Design">Design</option>
+          <option value="Financeiro">Financeiro</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Infraestrutura">Infraestrutura</option>
+          <option value="Operacional">Operacional</option>
         </select>
       </div>
 

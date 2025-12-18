@@ -12,7 +12,7 @@ function Home() {
         <div className={styles.heroContent}>
           <h1>
             Nexoflex, o sistema inteligente para
-            Gestão de Projetos e Finanças
+            Gestão de Projetos e Serviços.
           </h1>
 
           <p>
