@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import api from "../services/api";
+import { getProject, updateProject } from "../services/supabase"; // Updated import
 import ServiceForm from "../Project/ServiceForm";
 import styles from "./DetalhesProjeto.module.css";
 
@@ -19,26 +19,29 @@ function DetalhesProjeto() {
   }
 
   useEffect(() => {
-api
-  .get(`/projetos/${id}`)
-  .then((response) => {
-    setProjeto({
-      ...response.data,
-      services: response.data.services || []
-    });
-    setLoading(false);
-  })
-  .catch(() => setLoading(false));
+    getProject(id)
+      .then((data) => {
+        setProjeto({
+          ...data,
+          services: data.services || [] // Ensures services is always an array
+        });
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
   }, [id]);
 
   if (loading) return <p>Carregando...</p>;
   if (!projeto) return <p>Projeto não encontrado.</p>;
 
+  // Ensure budget and cost are treated as numbers
   const totalGasto =
     projeto.services?.reduce((acc, s) => acc + Number(s.cost), 0) || 0;
 
-  const orcamentoRestante = projeto.budget - totalGasto;
-  const progresso = Math.min((totalGasto / projeto.budget) * 100, 100);
+  const orcamentoRestante = Number(projeto.budget) - totalGasto;
+  const progresso = Math.min((totalGasto / Number(projeto.budget)) * 100, 100);
 
   function adicionarVerba(e) {
     e.preventDefault();
@@ -49,15 +52,12 @@ api
       return;
     }
 
-    const projetoAtualizado = {
-      ...projeto,
-      budget: Number(projeto.budget) + valor,
-    };
+    // Only update the budget field
+    const novoBudget = Number(projeto.budget) + valor;
 
-    api
-      .put(`/projetos/${id}`, projetoAtualizado)
+    updateProject(id, { budget: novoBudget })
       .then(() => {
-        setProjeto(projetoAtualizado);
+        setProjeto({ ...projeto, budget: novoBudget });
         setNovoOrcamento("");
         showToast("Verba adicionada com sucesso!");
       })
@@ -72,20 +72,19 @@ api
       return;
     }
 
-    const novoServico = { ...service, id: Math.random().toString(36) };
+    const novoServico = { ...service, id: crypto.randomUUID() }; // Use crypto.randomUUID for better IDs
+    const novosServicos = [...projeto.services, novoServico];
 
-    const projetoAtualizado = {
-      ...projeto,
-      services: [...projeto.services, novoServico],
-    };
-
-    api
-      .put(`/projetos/${id}`, projetoAtualizado)
+    // Update the services JSON column
+    updateProject(id, { services: novosServicos })
       .then(() => {
-        setProjeto(projetoAtualizado);
+        setProjeto({ ...projeto, services: novosServicos });
         showToast("Serviço adicionado!");
       })
-      .catch(() => showToast("Falha ao adicionar serviço.", "error"));
+      .catch((err) => {
+        console.error(err);
+        showToast("Falha ao adicionar serviço.", "error")
+      });
   }
 
   function removerServico(serviceId) {
@@ -93,97 +92,93 @@ api
       (s) => s.id !== serviceId
     );
 
-    const projetoAtualizado = {
-      ...projeto,
-      services: servicesAtualizados,
-    };
-
-    api
-      .put(`/projetos/${id}`, projetoAtualizado)
+    updateProject(id, { services: servicesAtualizados })
       .then(() => {
-        setProjeto(projetoAtualizado);
+        setProjeto({ ...projeto, services: servicesAtualizados });
         showToast("Serviço removido!");
       })
-      .catch(() => showToast("Falha ao remover serviço.", "error"));
+      .catch((err) => {
+        console.error(err);
+        showToast("Falha ao remover serviço.", "error")
+      });
   }
 
   return (
-  <div className={styles.container}>
-    <h1 className={styles.title}>Projeto: {projeto.name}</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Projeto: {projeto.name}</h1>
 
-    <div className={styles.layoutGrid}>
+      <div className={styles.layoutGrid}>
 
-      {/* COLUNA ESQUERDA - INFORMAÇÕES */}
-      <div className={styles.infoBox}>
-        <p><strong>Descrição:</strong> {projeto.description}</p>
-        <p><strong>Orçamento Total:</strong> R$ {projeto.budget}</p>
-        <p><strong>Total Gasto:</strong> R$ {totalGasto}</p>
+        {/* COLUNA ESQUERDA - INFORMAÇÕES */}
+        <div className={styles.infoBox}>
+          <p><strong>Descrição:</strong> {projeto.description}</p>
+          <p><strong>Orçamento Total:</strong> R$ {projeto.budget}</p>
+          <p><strong>Total Gasto:</strong> R$ {totalGasto}</p>
 
-        <p className={orcamentoRestante < 0 ? styles.negativo : ""}>
-          <strong>Orçamento Restante:</strong> R$ {orcamentoRestante}
-        </p>
+          <p className={orcamentoRestante < 0 ? styles.negativo : ""}>
+            <strong>Orçamento Restante:</strong> R$ {orcamentoRestante}
+          </p>
 
-        <div className={styles.progressWrapper}>
-          <div
-            className={styles.progressBar}
-            style={{ width: `${progresso}%` }}
-          ></div>
+          <div className={styles.progressWrapper}>
+            <div
+              className={styles.progressBar}
+              style={{ width: `${progresso}%` }}
+            ></div>
+          </div>
+
+          <form onSubmit={adicionarVerba} className={styles.verbaForm}>
+            <input
+              type="number"
+              placeholder="R$"
+              value={novoOrcamento}
+              onChange={(e) => setNovoOrcamento(e.target.value)}
+            />
+            <button type="submit">Adicionar</button>
+          </form>
         </div>
 
-        <form onSubmit={adicionarVerba} className={styles.verbaForm}>
-          <input
-            type="number"
-            placeholder="R$"
-            value={novoOrcamento}
-            onChange={(e) => setNovoOrcamento(e.target.value)}
+        {/* COLUNA CENTRAL - FORMULÁRIO */}
+        <div className={styles.formularioBox}>
+          <h2 className={styles.sectionTitle}>Adicionar Serviço</h2>
+
+          <ServiceForm
+            handleSubmit={adicionarServico}
+            btnText="Adicionar Serviço"
           />
-          <button type="submit">Adicionar</button>
-        </form>
-      </div>
-
-      {/* COLUNA CENTRAL - FORMULÁRIO */}
-      <div className={styles.formularioBox}>
-        <h2 className={styles.sectionTitle}>Adicionar Serviço</h2>
-
-        <ServiceForm
-          handleSubmit={adicionarServico}
-          btnText="Adicionar Serviço"
-        />
-      </div>
-
-      {/* COLUNA DIREITA - SERVIÇOS */}
-      <div className={styles.servicosContainer}>
-        <h2 className={styles.sectionTitle}>Serviços</h2>
-
-        <div className={styles.serviceList}>
-          {projeto.services.map((service) => (
-            <div key={service.id} className={styles.serviceCard}>
-              <h3>{service.name}</h3>
-              <p><strong>Custo:</strong> R$ {service.cost}</p>
-
-              <button
-                className={styles.removeBtn}
-                onClick={() => removerServico(service.id)}
-              >
-                Remover
-              </button>
-            </div>
-          ))}
         </div>
+
+        {/* COLUNA DIREITA - SERVIÇOS */}
+        <div className={styles.servicosContainer}>
+          <h2 className={styles.sectionTitle}>Serviços</h2>
+
+          <div className={styles.serviceList}>
+            {projeto.services.map((service) => (
+              <div key={service.id} className={styles.serviceCard}>
+                <h3>{service.name}</h3>
+                <p><strong>Custo:</strong> R$ {service.cost}</p>
+
+                <button
+                  className={styles.removeBtn}
+                  onClick={() => removerServico(service.id)}
+                >
+                  Remover
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
 
+      {toast && (
+        <div
+          className={`${styles.toast} ${toast.tipo === "error" ? styles.toastError : styles.toastSuccess
+            }`}
+        >
+          {toast.mensagem}
+        </div>
+      )}
     </div>
-
-    {toast && (
-      <div
-        className={`${styles.toast} ${
-          toast.tipo === "error" ? styles.toastError : styles.toastSuccess
-        }`}
-      >
-        {toast.mensagem}
-      </div>
-    )}
-  </div>
-);
+  );
 }
 export default DetalhesProjeto;

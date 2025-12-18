@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../services/api";
+import { getProject, updateProject } from "../services/supabase";
 import styles from "./EditarProjeto.module.css";
 
 function EditarProjeto() {
@@ -11,10 +11,9 @@ function EditarProjeto() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api
-      .get(`/projetos/${id}`)
-      .then((response) => {
-        setProject(response.data);
+    getProject(id)
+      .then((data) => {
+        setProject(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -30,11 +29,18 @@ function EditarProjeto() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    api
-      .put(`/projetos/${id}`, project)
+    // Ensure numeric fields are converted properly if needed, although Supabase usually handles strings well for numeric columns,
+    // explicit conversion matches previous logic.
+    const projectToUpdate = {
+      name: project.name,
+      budget: Number(project.budget),
+      category_id: project.category_id, // Ensure we use the correct column name
+    };
+
+    updateProject(id, projectToUpdate)
       .then(() => {
         alert("Projeto atualizado com sucesso!");
-        navigate("/Projetos"); // redireciona após salvar
+        navigate("/"); // Redirect to home/list
       })
       .catch((err) => {
         console.error("Erro ao atualizar projeto:", err);
@@ -79,13 +85,13 @@ function EditarProjeto() {
           onChange={handleChange}
         >
           <option value="">Selecione</option>
-          <option value="1">Planejamento</option>
-          <option value="2">Desenvolvimento</option>
-          <option value="3">Design</option>
-          <option value="4">Financeiro</option>
-          <option value="5">Marketing</option>
-          <option value="6">Infraestrutura</option>
-          <option value="7">Operacional</option>
+          <option value="Planejamento">Planejamento</option>
+          <option value="Desenvolvimento">Desenvolvimento</option>
+          <option value="Design">Design</option>
+          <option value="Financeiro">Financeiro</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Infraestrutura">Infraestrutura</option>
+          <option value="Operacional">Operacional</option>
         </select>
 
         <button type="submit" className={styles.btn}>Salvar alterações</button>
